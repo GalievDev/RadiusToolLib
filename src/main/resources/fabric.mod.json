@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "rt_lib",
+  "version": "${version}",
+  "name": "RadiusToolLib",
+  "description": "Lib for creating radius tools",
+  "authors": [
+    "GalievDev"
+  ],
+  "contact": {
+    "website": "https://galievdev.github.io/",
+    "repo": "https://github.com/Galiev/RadiusToolLib"
+  },
+  "license": "MIT",
+  "icon": "assets/rt_lib/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.galiev.rt_lib.RadiusToolLib"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
