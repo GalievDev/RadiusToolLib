@@ -1,16 +1,18 @@
 package dev.galiev.rt_lib.items.tools;
 
-import dev.galiev.rt_lib.items.RadiusToolItem;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 
-public class RadiusHoe extends RadiusToolItem {
-    public RadiusHoe(float attackDamage, float attackSpeed, ToolMaterial material, Settings settings, int radius) {
-        super(attackDamage, attackSpeed, material, BlockTags.HOE_MINEABLE, settings, radius);
+public class RadiusHoe extends HoeItem {
+    private int range = 1;
+    public RadiusHoe(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings, int range) {
+        super(material, attackDamage, attackSpeed, settings);
+        this.range = range;
     }
 
     @Override
@@ -21,12 +23,11 @@ public class RadiusHoe extends RadiusToolItem {
         var setBlock = Blocks.FARMLAND.getDefaultState();
 
         if (player != null && !player.isSneaking()) {
-            int radius = getRadius();
-            int startX = blockPos.getX() - radius;
+            int startX = blockPos.getX() - range;
             int startY = blockPos.getY();
-            int startZ = blockPos.getZ() - radius;
-            int endX = blockPos.getX() + radius;
-            int endZ = blockPos.getZ() + radius;
+            int startZ = blockPos.getZ() - range;
+            int endX = blockPos.getX() + range;
+            int endZ = blockPos.getZ() + range;
 
             for (int x = startX; x <= endX; x++) {
                 for (int z = startZ; z <= endZ; z++) {
@@ -41,11 +42,6 @@ public class RadiusHoe extends RadiusToolItem {
             }
             return ActionResult.SUCCESS;
 
-        } else if (player != null && player.isSneaking()) {
-            world.setBlockState(blockPos, setBlock);
-            player.getMainHandStack().damage(1, player, (p) -> p.sendToolBreakStatus(context.getHand()));
-
-            return ActionResult.SUCCESS;
         }
 
         return ActionResult.PASS;

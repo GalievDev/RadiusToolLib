@@ -1,25 +1,25 @@
 package dev.galiev.rt_lib.items.tools;
 
-import dev.galiev.rt_lib.items.RadiusToolItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class RadiusPickaxe extends RadiusToolItem {
-    public RadiusPickaxe(float attackDamage, float attackSpeed, ToolMaterial material, Settings settings, int radius) {
-        super(attackDamage, attackSpeed, material, BlockTags.PICKAXE_MINEABLE, settings, radius);
+public class RadiusPickaxe extends PickaxeItem {
+    private int range = 1;
+    public RadiusPickaxe(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings, int range) {
+        super(material, attackDamage, attackSpeed, settings);
+        this.range = range;
     }
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         var player = (PlayerEntity) miner;
         if (!player.isSneaking() && state.isToolRequired() && this.isSuitableFor(state)) {
-            int range = getRadius();
             int x = pos.getX();
             int y = pos.getY();
             int z = pos.getZ();
