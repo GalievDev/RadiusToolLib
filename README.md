@@ -36,7 +36,7 @@ public class ModName implements ModInitializer {
     // For the tool to dig 3x3 - range: 1, 5x5 - range: 2; And so on...
     @Override
     public void onInitialize() {
-        Registry.register(Registries.ITEM, new Identifier("your_mod_id", "radius_pickaxe"), RADIUS_PICKAXE)
+        Registry.register(Registries.ITEM, new Identifier("your_mod_id", "radius_pickaxe"), RADIUS_PICKAXE);
     }
 }
 ```
