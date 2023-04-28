@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Box;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class RadiusSword extends SwordItem {
 
             for (var entity : entities){
                 entity.damage(world.getDamageSources().playerAttack(player), radiusDamage);
+
+                world.addParticle(ParticleTypes.SPLASH, entity.getX(), entity.getY(), entity.getZ(), 0.2d,0.1d,0.3d);
             }
             return true;
         }
