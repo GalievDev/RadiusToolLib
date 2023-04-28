@@ -20,25 +20,14 @@ public class RadiusPickaxe extends PickaxeItem {
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         var player = (PlayerEntity) miner;
         if (!player.isSneaking() && state.isToolRequired() && this.isSuitableFor(state)) {
-            int x = pos.getX();
-            int y = pos.getY();
-            int z = pos.getZ();
+            for (BlockPos targetPos :  BlockPos.iterate(pos.add(-range, -range, -range), pos.add(range, range, range))){
+                var targetState = world.getBlockState(targetPos);
 
-            for (int i = x - range; i <= x + range; i++) {
-                for (int j = y - range; j <= y + range; j++) {
-                    for (int k = z - range; k <= z + range; k++) {
-
-                        var targetPos = new BlockPos(i, j, k);
-                        var targetState = world.getBlockState(targetPos);
-
-                        if (targetState.isToolRequired() && this.isSuitableFor(targetState)) {
-                            if (!player.isCreative()) {
-                                stack.damage(1, player, (p) -> p.sendToolBreakStatus(player.getActiveHand()));
-                            }
-
-                            world.breakBlock(targetPos, true, player);
-                        }
+                if (targetState.isToolRequired() && this.isSuitableFor(targetState)) {
+                    if (!player.isCreative()) {
+                        stack.damage(1, player, (p) -> p.sendToolBreakStatus(player.getActiveHand()));
                     }
+                    world.breakBlock(targetPos, true, player);
                 }
             }
 

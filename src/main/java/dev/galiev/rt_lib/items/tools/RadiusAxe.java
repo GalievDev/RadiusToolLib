@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -20,10 +21,13 @@ public class RadiusAxe extends AxeItem {
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         var player = (PlayerEntity) miner;
         if (!player.isSneaking()) {
-            for (BlockPos targetPos :  BlockPos.iterate(pos.add(-range, -range, -range), pos.add(range, range, range))){
+            for (BlockPos targetPos :  BlockPos.iterate(pos.add(-range, -range, -range), pos.add(range, range, range))) {
                 var targetState = world.getBlockState(targetPos);
 
-                if (targetState.isToolRequired() && this.isSuitableFor(targetState)) {
+                if (targetState.isIn(BlockTags.AXE_MINEABLE)) {
+                    if (!player.isCreative()) {
+                        stack.damage(1, player, (p) -> p.sendToolBreakStatus(player.getActiveHand()));
+                    }
                     world.breakBlock(targetPos, true, player);
                 }
                 return true;
