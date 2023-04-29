@@ -1,15 +1,21 @@
 package dev.galiev.rt_lib.items.util;
 
+import dev.galiev.rt_lib.RadiusToolLib;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class RadiusUtil {
     public static void breakBlocks(ItemStack stack, World world, BlockPos pos, LivingEntity miner, int range) {
@@ -48,5 +54,24 @@ public class RadiusUtil {
                 }
             }
         }
+    }
+
+    public static boolean radiusHit(LivingEntity attacker, int radius, int radiusDamage) {
+        if (attacker instanceof PlayerEntity player) {
+            var world = player.getWorld();
+            var blockPos = player.getBlockPos();
+            RadiusToolLib.LOGGER.info("Is player!");
+            List<Entity> entities = world.getEntitiesByClass(Entity.class, new Box(blockPos).expand(radius), entity ->
+                    entity instanceof LivingEntity && entity != attacker);
+
+            for (var entity : entities){
+                entity.damage(world.getDamageSources().playerAttack(player), radiusDamage);
+                RadiusToolLib.LOGGER.info("HIT");
+                world.addParticle(ParticleTypes.SPLASH, entity.getX(), entity.getY(), entity.getZ(), 0.2d,0.1d,0.3d);
+            }
+            return true;
+        }
+
+        return false;
     }
 }
