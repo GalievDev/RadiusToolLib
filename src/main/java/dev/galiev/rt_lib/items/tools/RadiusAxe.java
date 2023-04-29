@@ -30,8 +30,8 @@ public class RadiusAxe extends AxeItem {
                     }
                     world.breakBlock(targetPos, true, player);
                 }
-                return true;
             }
+            return true;
         }
         return super.postMine(stack, world, state, pos, miner);
     }
