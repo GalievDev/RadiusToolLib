@@ -18,14 +18,17 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class RadiusUtil {
-    public static void breakBlocks(ItemStack stack, World world, BlockPos pos, LivingEntity miner, int range) {
+    public static boolean breakBlocks(ItemStack stack, World world, BlockPos pos, LivingEntity miner, int range) {
         var player = (PlayerEntity) miner;
         for (BlockPos targetPos : BlockPos.iterate(pos.add(-range, -range, -range), pos.add(range, range, range))) {
             if (!player.isCreative()) {
                 stack.damage(1, player, (p) -> p.sendToolBreakStatus(player.getActiveHand()));
             }
             world.breakBlock(targetPos, true, player);
+
+            return true;
         }
+        return false;
     }
 
     public static void setBlock(ItemUsageContext context, BlockState mutableBlock, PlayerEntity player, SoundEvent sound, int range) {
