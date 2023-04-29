@@ -20,7 +20,7 @@ public class RadiusPickaxe extends PickaxeItem {
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         var player = (PlayerEntity) miner;
         if (!player.isSneaking() && state.isToolRequired() && this.isSuitableFor(state)) {
-            for (BlockPos targetPos :  BlockPos.iterate(pos.add(-range, -range, -range), pos.add(range, range, range))){
+            for (BlockPos targetPos : BlockPos.iterate(pos.add(-range, -range, -range), pos.add(range, range, range))) {
                 var targetState = world.getBlockState(targetPos);
 
                 if (targetState.isToolRequired() && this.isSuitableFor(targetState)) {
