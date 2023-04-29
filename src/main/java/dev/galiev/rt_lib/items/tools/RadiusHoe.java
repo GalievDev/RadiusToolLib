@@ -26,6 +26,6 @@ public class RadiusHoe extends HoeItem {
             return ActionResult.SUCCESS;
         }
 
-        return ActionResult.SUCCESS;
+        return ActionResult.PASS;
     }
 }
