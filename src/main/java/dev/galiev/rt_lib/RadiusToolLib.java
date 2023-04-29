@@ -2,6 +2,7 @@ package dev.galiev.rt_lib;
 
 import com.mojang.logging.LogUtils;
 import dev.galiev.rt_lib.items.tools.RadiusHoe;
+import dev.galiev.rt_lib.items.tools.RadiusShovel;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ToolMaterials;
@@ -15,9 +16,11 @@ public class RadiusToolLib implements ModInitializer {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static final RadiusHoe RADIUS_HOE = new RadiusHoe(ToolMaterials.NETHERITE, 4, 1.0f, new FabricItemSettings(), 1);
+    public static final RadiusShovel RADIUS_SHOVEL = new RadiusShovel(ToolMaterials.NETHERITE, 4, 1.0f, new FabricItemSettings(), 1);
     @Override
     public void onInitialize() {
         LOGGER.info(MOD_ID + "Loaded");
-        Registry.register(Registries.ITEM, new Identifier(MOD_ID, "radius_pickaxe"), RADIUS_HOE);
+        Registry.register(Registries.ITEM, new Identifier(MOD_ID, "radius_hoe"), RADIUS_HOE);
+        Registry.register(Registries.ITEM, new Identifier(MOD_ID, "radius_shovel"), RADIUS_SHOVEL);
     }
 }

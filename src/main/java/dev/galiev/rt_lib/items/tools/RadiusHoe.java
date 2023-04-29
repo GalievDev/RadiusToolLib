@@ -5,6 +5,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 
 public class RadiusHoe extends HoeItem {
@@ -20,11 +21,11 @@ public class RadiusHoe extends HoeItem {
         var setBlock = Blocks.FARMLAND.getDefaultState();
 
         if (player != null && !player.isSneaking()) {
-            RadiusUtil.setBlock(context, setBlock, player, range);
+            RadiusUtil.setBlock(context, setBlock, player, SoundEvents.ITEM_HOE_TILL, range);
 
             return ActionResult.SUCCESS;
         }
 
-        return ActionResult.PASS;
+        return ActionResult.SUCCESS;
     }
 }
