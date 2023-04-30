@@ -2,12 +2,14 @@ package dev.galiev.rt_lib.items.tools;
 
 import dev.galiev.rt_lib.items.util.RadiusUtil;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.MiningToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,7 +32,6 @@ public class RadiusMultiTool extends MiningToolItem {
     }
 
 
-
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         return RadiusUtil.breakBlocks(stack, world, pos, miner, range);
@@ -43,6 +44,22 @@ public class RadiusMultiTool extends MiningToolItem {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        return super.useOnBlock(context);
+        var player = context.getPlayer();
+        var dirtPath = Blocks.DIRT_PATH.getDefaultState();
+        var farmland = Blocks.FARMLAND.getDefaultState();
+
+        if (player != null) {
+            if (!player.isSneaking()) {
+                RadiusUtil.setBlock(context, dirtPath, player, SoundEvents.ITEM_SHOVEL_FLATTEN, range);
+
+                return ActionResult.SUCCESS;
+            } else {
+                RadiusUtil.setBlock(context, farmland, player, SoundEvents.ITEM_HOE_TILL, range);
+
+                return ActionResult.SUCCESS;
+            }
+        }
+
+        return ActionResult.PASS;
     }
 }
