@@ -20,7 +20,7 @@ public class RadiusToolLib implements ModInitializer {
     public static final RadiusHoe RADIUS_HOE = new RadiusHoe(ToolMaterials.NETHERITE, 4, 1.0f, new FabricItemSettings(), 1);
     public static final RadiusShovel RADIUS_SHOVEL = new RadiusShovel(ToolMaterials.NETHERITE, 4, 1.0f, new FabricItemSettings(), 1);
     public static final RadiusSword RADIUS_SWORD = new RadiusSword(ToolMaterials.NETHERITE, 4, 1.0f, new FabricItemSettings(), 100, 1);
-    public static final RadiusMultiTool RADIUS_MULTI_TOOL = new RadiusMultiTool(4, 1.0f, ToolMaterials.NETHERITE, new FabricItemSettings(), 1, 100, 1);
+    public static final RadiusMultiTool RADIUS_MULTI_TOOL = new RadiusMultiTool(4, 1.0f, ToolMaterials.NETHERITE, new FabricItemSettings(), 3, 100, 1);
     @Override
     public void onInitialize() {
         LOGGER.info(MOD_ID + "Loaded");

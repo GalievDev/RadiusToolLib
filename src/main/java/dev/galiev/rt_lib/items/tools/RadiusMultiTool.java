@@ -4,6 +4,7 @@ import dev.galiev.rt_lib.items.util.RadiusUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.MiningToolItem;
@@ -27,14 +28,16 @@ public class RadiusMultiTool extends MiningToolItem {
     }
 
     @Override
-    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        return super.getMiningSpeedMultiplier(stack, state);
-    }
-
-
-    @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        return RadiusUtil.breakBlocks(stack, world, pos, miner, range);
+        var player = (PlayerEntity) miner;
+        for (BlockPos targetPos : BlockPos.iterate(pos.add(-range, -range, -range), pos.add(range, range, range))) {
+            if (!player.isCreative()) {
+                stack.damage(1, player, (p) -> p.sendToolBreakStatus(player.getActiveHand()));
+            }
+            world.breakBlock(targetPos, true, player);
+            return true;
+        }
+        return false;
     }
 
     @Override
